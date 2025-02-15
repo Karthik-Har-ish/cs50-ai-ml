@@ -92,6 +92,8 @@ class Maze:
                     row.append(False)
             self.walls.append(row)
         self.solution=None
+        self.paths = []
+        
 
     def print(self):
         solution = self.solution[1] if self.solution is not None else None
@@ -115,10 +117,10 @@ class Maze:
         row,col = state
 
         candidates = [
-            ("up",(row-1,col),(self.goal[0]-row)+(self.goal[1]-col)),
-            ("down",(row+1,col),(self.goal[0]-row)+(self.goal[1]-col)),
-            ("left",(row,col-1),(self.goal[0]-row)+(self.goal[1]-col)),
-            ("right",(row,col+1),(self.goal[0]-row)+(self.goal[1]-col)),
+            ("up",(row-1,col),((abs(self.goal[0]-(row-1)))+abs(self.goal[1]-col))),
+            ("down",(row+1,col),(abs(self.goal[0]-(row+1))+abs(self.goal[1]-col))),
+            ("left",(row,col-1),(abs(self.goal[0]-row)+abs(self.goal[1]-(col-1)))),
+            ("right",(row,col+1),(abs(self.goal[0]-row)+abs(self.goal[1]-(col+1)))),
         ]
 
         result = []
@@ -131,13 +133,15 @@ class Maze:
                 continue
         return result
     
+
     def solve(self):
         self.num_explored = 0
-
-        start = Node(state=self.start,action=None,parent=None,heuristic=(self.goal[0]-self.start[0]+self.goal[1]-self.start[1]))
+        
+        start = Node(state=self.start,action=None,parent=None,heuristic=(abs(self.goal[0]-self.start[0])+abs(self.goal[1]-self.start[1])))
         frontier = StackFrontier()
         frontier.push(start)
-
+        
+        
         self.explored = set()
 
         while True:
@@ -163,22 +167,22 @@ class Maze:
                 break
             
             
-            paths = []
+            
             for action,state,heuristic in self.neighbours(node.state):
                 
                 if not frontier.containsState(state) and state not in self.explored:
-                    
                     child = Node(state,action,node,heuristic=heuristic)
-                    paths.append(child)
-            paths.sort(key=lambda x:x.heuristic)
-            for i in paths:
+                    self.paths.append(child)
+            self.paths.sort(key=lambda x:x.heuristic,reverse=True)
+            
+            for i in self.paths:
                 frontier.push(i)
 
-                    
-                
-
+            self.paths = self.paths[:-1]
+            
 maze = Maze("maze.txt")
 maze.print()
 maze.solve()
 maze.print()
+print(maze.goal)
 print(maze.num_explored)
