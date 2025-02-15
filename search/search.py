@@ -94,8 +94,10 @@ class Maze:
                     row.append(False)
             self.walls.append(row)
         self.solution=None
+        self.pathExplored = []
 
-    def print(self):
+    def print(self,**kwargs):
+        self.showPath = kwargs.get("showPath",False)
         solution = self.solution[1] if self.solution is not None else None
         print()
         for i,row in enumerate(self.walls):
@@ -108,6 +110,8 @@ class Maze:
                     print("B",end="")
                 elif solution is not None and (i,j) in solution:
                     print("*",end="")
+                elif self.showPath and (i,j) in self.pathExplored:
+                    print('.',end="")
                 else:
                     print(" ",end="")
             print()
@@ -149,7 +153,7 @@ class Maze:
             node = frontier.remove()
             self.num_explored+=1
             self.explored.add(node.state)
-            
+            self.pathExplored.append(node.state)
             if node.state==self.goal:
                 actions = []
                 cells = []

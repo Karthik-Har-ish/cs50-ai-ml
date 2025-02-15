@@ -1,4 +1,4 @@
-import sys
+import time
 
 class Node:
     def __init__(self,state,action,parent,heuristic):
@@ -93,10 +93,12 @@ class Maze:
             self.walls.append(row)
         self.solution=None
         self.paths = []
+        self.pathExplored = []
         
 
-    def print(self):
+    def print(self,**kwargs):
         solution = self.solution[1] if self.solution is not None else None
+        self.showPath = kwargs.get("showPath",False)
         print()
         for i,row in enumerate(self.walls):
             for j,col in enumerate(row):
@@ -108,6 +110,8 @@ class Maze:
                     print("B",end="")
                 elif solution is not None and (i,j) in solution:
                     print("*",end="")
+                elif self.showPath and (i,j) in self.pathExplored:
+                    print('.',end="")
                 else:
                     print(" ",end="")
             print()
@@ -151,8 +155,8 @@ class Maze:
             node = frontier.remove()
             self.num_explored+=1
             self.explored.add(node.state)
-            #self.solution.append(node.action,node.state)
-            
+            self.pathExplored.append(node.state)
+
             if node.state==self.goal:
                 actions = []
                 cells = []
@@ -181,8 +185,10 @@ class Maze:
             self.paths = self.paths[:-1]
             
 maze = Maze("maze.txt")
+start = time.time()
 maze.print()
 maze.solve()
 maze.print()
-print(maze.goal)
+end = time.time()
+print("Time taken: ",end-start)
 print(maze.num_explored)
