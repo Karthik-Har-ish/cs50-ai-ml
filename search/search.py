@@ -176,11 +176,13 @@ class Maze:
                 
 
 maze = Maze("maze.txt")
+
+maze.print()
 start=time.time()
-maze.print()
 maze.solve()
-maze.print()
 end = time.time()
+maze.print()
+
 print(maze.num_explored)
 with open("log.txt","a") as log:
     log.write(str(end-start)+"seconds\n")

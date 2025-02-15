@@ -185,11 +185,11 @@ class Maze:
             self.paths = self.paths[:-1]
             
 maze = Maze("maze.txt")
+maze.print()
 start = time.time()
-maze.print()
 maze.solve()
-maze.print()
 end = time.time()
+maze.print()
 with open("log.txt","a") as log:
     log.write(str(end-start)+"seconds\n")
 print(maze.num_explored)
