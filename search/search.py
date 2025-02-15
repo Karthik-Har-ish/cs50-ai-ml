@@ -1,4 +1,4 @@
-import sys
+import time
 
 class Node:
     def __init__(self,state,action,parent,pathCost):
@@ -172,7 +172,10 @@ class Maze:
                 
 
 maze = Maze("maze.txt")
+start=time.time()
 maze.print()
 maze.solve()
-maze.print()
+maze.print(showPath=True)
+end = time.time()
 print(maze.num_explored)
+print("Time",end-start)
