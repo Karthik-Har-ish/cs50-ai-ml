@@ -190,5 +190,6 @@ maze.print()
 maze.solve()
 maze.print()
 end = time.time()
-print("Time taken: ",end-start)
+with open("log.txt","a") as log:
+    log.write(str(end-start)+"seconds\n")
 print(maze.num_explored)
