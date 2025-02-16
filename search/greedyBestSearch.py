@@ -30,7 +30,6 @@ class StackFrontier:
         else:
             return self.frontier.pop()
         
-        # TODO : USE POP INSTEAD OF THIS WEIRD CODE HERE
 
 class QueueFrontier:
     def __init__(self):
