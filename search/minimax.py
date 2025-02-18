@@ -37,12 +37,13 @@ class GameState:
         newState = self.state
         newState[action[0]][action[1]]=self.player()
         return newState
+    
     def terminal(self,state):
         def slotsFilled():
             totalCount = 0
             for i in range(3):
                 for j in range(3):
-                    if self.state[i][j]!=" ":
+                    if state[i][j]!=" ":
                         totalCount+=1
             if totalCount==9:
                 return True
@@ -76,40 +77,26 @@ class GameState:
             return True
 
         def diagonalAchieved():
-            print("diagonal achieved by one agent")
-            # TODO:  FINISH DIAGONAL ACHIEVED CONDITION
-        
+            options = ("X","O")
+            for k in options:
+                isDiagonal=0
+                for i in range(3):
+                    if state[i][i]==k:
+                        isDiagonal+=1
+                if isDiagonal==3:
+                    return True
+                isDiagonal=0
+                for i in range(3):
+                    if state[i][abs(2-i)]==k:
+                        isDiagonal+=1
+                if isDiagonal==3:
+                    return True
+            return False
         if diagonalAchieved():
             return True
 
         return False
-        # for i in range(3):
-        #     for j in range(3):
-        #         for k in options:
-        #             if row[i][j]==k:
 
-        # if 3 in row.values():
-        #     return True
-        # row.clear()
-        # for i in range(3):
-        #     for j in range(3):
-        #         if self.state[i][j]!=" ":
-        #             row[j]=row.get(j,0)+1
-        # if 3 in row.values():
-        #     return True
-        # row.clear()
-        # totalCount=0
-        # for i in range(3):
-        #     if self.state[i][i]=="X":
-        #         total
-
-    
-
-        
-        for i in range(3):
-            for j in range(3):
-                if self.state[i][j]!=" "
-                row[]
 class Min:
     def __init__(self,state):
         pass
