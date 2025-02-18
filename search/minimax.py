@@ -5,6 +5,8 @@ class GameState:
         self.action=action
         self.parent=parent
         
+
+        
     def print(self):
         for i in range(3):
             for j in range(3):
@@ -35,30 +37,71 @@ class GameState:
         newState = self.state
         newState[action[0]][action[1]]=self.player()
         return newState
-    def terminal(self):
-        row= {}
-        totalCount = 0
-        for i in range(3):
-            for j in range(3):
-                if self.state[i][j]!=" ":
-                    row[i]=row.get(i,0)+1
-                    totalCount+=1
-        if totalCount==0:
+    def terminal(self,state):
+        def slotsFilled():
+            totalCount = 0
+            for i in range(3):
+                for j in range(3):
+                    if self.state[i][j]!=" ":
+                        totalCount+=1
+            if totalCount==9:
+                return True
+    
+        if slotsFilled():
             return True
-        if 3 in row.values():
+
+        def rowAchieved():
+            options = ("X","O")
+            for k in options:
+                for i in state:
+                    rowFound = all(j==k for j in i)
+                    if rowFound:
+                        return True
+            return False
+        if rowAchieved():
             return True
-        row.clear()
-        for i in range(3):
-            for j in range(3):
-                if self.state[i][j]!=" ":
-                    row[j]=row.get(j,0)+1
-        if 3 in row.values():
+
+        def columnAchieved():
+            options = ("X","O")
+            for i in range(3):
+                column = []
+                for j in range(3):
+                    column.append(state[j][i])
+                for k in options:
+                    columnFound = all(j==k for j in column)
+                    if columnFound:
+                        return True
+            return False
+        if columnAchieved():
             return True
-        row.clear()
-        totalCount=0
-        for i in range(3):
-            if self.state[i][i]=="X":
-                total
+
+        def diagonalAchieved():
+            print("diagonal achieved by one agent")
+            # TODO:  FINISH DIAGONAL ACHIEVED CONDITION
+        
+        if diagonalAchieved():
+            return True
+
+        return False
+        # for i in range(3):
+        #     for j in range(3):
+        #         for k in options:
+        #             if row[i][j]==k:
+
+        # if 3 in row.values():
+        #     return True
+        # row.clear()
+        # for i in range(3):
+        #     for j in range(3):
+        #         if self.state[i][j]!=" ":
+        #             row[j]=row.get(j,0)+1
+        # if 3 in row.values():
+        #     return True
+        # row.clear()
+        # totalCount=0
+        # for i in range(3):
+        #     if self.state[i][i]=="X":
+        #         total
 
     
 
